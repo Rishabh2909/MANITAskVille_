@@ -1,10 +1,19 @@
 import { Avatar } from '@material-ui/core';
 import { ArrowDownwardOutlined, ArrowUpwardOutlined, ChatBubbleOutlined, MoreHorizOutlined, RepeatOneOutlined, ShareOutlined } from '@material-ui/icons';
-import React from 'react'
+import React, { useState } from 'react'
 import './css/Post.css';
+import Modal from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
+import CloseIcon from "@material-ui/icons/Close";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 function Post() {
+    const[isModalOpen,setIsModalOpen]=useState(false);
+    const Close = (<CloseIcon/>);
+
     return (
+        
         <div className='post'>
             <div className='post__info'>
                 <Avatar />
@@ -17,8 +26,37 @@ function Post() {
 
                 </div>
                 <div className='post__body2'>
-                    <button className='post__btnAnswer'>Answer</button>
-
+                    <button onClick={()=>setIsModalOpen(true)} className='post__btnAnswer'>Answer</button>
+                    <Modal
+                        open={isModalOpen}
+                        closeIcon = {Close} 
+                        onClose={()=>setIsModalOpen(false)}
+                        closeOnEsc
+                        center
+                        closeOnOverlayClick={false}
+                        styles={{
+                            overlay:{
+                                height:"auto"
+                            }
+                        }
+                        }
+                    >
+                        <div className="modal__question">
+                            <h1>This s a test question.</h1>
+                            <p>asked by {" "} <span className="name">Username</span> on <span className="name">timestamp</span></p>
+                        </div>
+                        <div className="modal__answer">
+                            <ReactQuill placeholder='Enter your answer'/>
+                        </div>
+                        <div className="modal__button">
+                            <button className='cancel' onClick={()=> setIsModalOpen(false)}>
+                                 Cancel
+                             </button>
+                             <button type='submit' className="add">
+                                 Add Question
+                             </button>
+                        </div>
+                    </Modal>
                 </div>
 
             </div>
